@@ -13,7 +13,9 @@ The data fetched will be the rates for EUR vs all major currencies
 
 To use the module, do something like this - 
 
-```import eurofx
+```python
+import eurofx
 
 daily = get_daily_data()
-historical = get_historical_data()```
+historical = get_historical_data()
+```
