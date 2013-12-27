@@ -15,6 +15,3 @@ daily = get_daily_data()
 
 #all daily close prices from 1 Jan 1999
 historical = get_historical_data()
-
-
-
