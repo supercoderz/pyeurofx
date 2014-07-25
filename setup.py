@@ -10,5 +10,5 @@ setup(name='pyeurofx',
       author_email='anarahari@gmail.com',
       url='https://github.com/supercoderz/pyeurofx',
       packages=['eurofx'],
-      requires=['lxml','requests'],
+      requires=['lxml','requests','pandas'],
      )
