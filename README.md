@@ -28,3 +28,5 @@ daily_df = get_daily_data_df()
 historical_df = get_historical_data_df()
 
 ```
+
+To see a ipython notebook example, visit - http://nbviewer.ipython.org/github/supercoderz/pyeurofx/blob/master/eurofx%20example.ipynb
