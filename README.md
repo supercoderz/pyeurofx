@@ -1,3 +1,6 @@
+.. image:: https://travis-ci.org/supercoderz/pyeurofx.svg?branch=master
+    :target: https://travis-ci.org/supercoderz/pyeurofx
+
 pyeurofx
 =============
 
