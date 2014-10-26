@@ -1,8 +1,8 @@
+pyeurofx
+=============
 .. image:: https://travis-ci.org/supercoderz/pyeurofx.svg?branch=master
     :target: https://travis-ci.org/supercoderz/pyeurofx
 
-pyeurofx
-=============
 
 This is a simple module that fetches the daily and historical FX rates from ECB and parses the data.
 The data is downloaded as XML files and returned as a list of (symbol, date, rate) tuples.
