@@ -1,23 +1,16 @@
-import requests
 from lxml import etree
 import datetime
 import pandas
+from .common import *
 
-HISTORICAL='http://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml'
-DAILY='http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml'
-
-def get_and_parse(data_url):
-    result = requests.get(data_url)
-    if result.status_code == requests.codes.ok:
-        return parse_and_load(result.content)
-        
+#this is overridden here        
 def parse_and_load(content):
     data = []
     doc = etree.XML(content)
     nodes = doc.iterchildren()
-    subject = nodes.next()
-    sender = nodes.next()
-    parent_cube = nodes.next()
+    subject = nodes.__next__()
+    sender = nodes.__next__()
+    parent_cube = nodes.__next__()
     times,currencies = get_index_and_cols(parent_cube)
     df = pandas.DataFrame(index=times,columns=currencies)
     load_dataframe(df,parent_cube)
