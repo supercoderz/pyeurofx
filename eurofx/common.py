@@ -3,8 +3,8 @@ from lxml import etree
 import datetime
 
 
-HISTORICAL='http://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml'
-DAILY='http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml'
+HISTORICAL='https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml'
+DAILY='https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml'
 
 def get_and_parse(data_url):
     result = requests.get(data_url)
