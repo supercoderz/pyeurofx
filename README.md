@@ -7,6 +7,8 @@ There is also the option to get the data as a pandas data frame.
 
 Install this module using 'pip install pyeurofx'
 
+This works with python 2.x and 3.x
+
 This depends on 3 modules - requests, lxml and pandas.
 
 pandas is required to be be able to get the data as a data frame.

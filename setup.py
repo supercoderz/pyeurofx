@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(name='pyeurofx',
-      version='0.2',
+      version='0.3',
       description='Python module to get and parse daily and historical FX rates from ECB',
       long_description='Please visit https://github.com/supercoderz/pyeurofx for more details',
       author='Narahari Allamraju',
