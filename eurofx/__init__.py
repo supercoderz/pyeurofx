@@ -1,2 +1,2 @@
-from eurofx import get_historical_data,get_daily_data
-from eurofx_pandas import get_historical_data_df,get_daily_data_df
+from .eurofx import get_historical_data,get_daily_data
+from .eurofx_pandas import get_historical_data_df,get_daily_data_df
