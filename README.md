@@ -28,11 +28,11 @@ To use the module, do something like this -
 ```python
 import eurofx
 
-daily = get_daily_data()
-historical = get_historical_data()
+daily = eurofx.get_daily_data()
+historical = eurofx.get_historical_data()
 
-daily_df = get_daily_data_df()
-historical_df = get_historical_data_df()
+daily_df = eurofx.get_daily_data_df()
+historical_df = eurofx.get_historical_data_df()
 
 ```
 
