@@ -1,7 +1,7 @@
 import requests
 from lxml import etree
 import datetime
-
+import pandas
 
 HISTORICAL='https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml'
 DAILY='https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml'
