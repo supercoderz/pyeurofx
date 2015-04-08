@@ -25,7 +25,10 @@ def parse_and_load(content):
         time = daily_cube.attrib['time']
         for currency_cube in daily_cube.iterchildren():
             currency = currency_cube.attrib['currency']
-            rate = currency_cube.attrib['rate']
+            try:
+                rate = float(currency_cube.attrib['rate'])
+            except:
+                rate = 1
             date = get_date(time)
             data.append((currency,date,rate))
     return data
@@ -38,7 +41,7 @@ def parse_and_load_df(content):
     sender = nodes.__next__()
     parent_cube = nodes.__next__()
     times,currencies = get_index_and_cols(parent_cube)
-    df = pandas.DataFrame(index=times,columns=currencies)
+    df = pandas.DataFrame(index=times,columns=currencies,dtype=float)
     load_dataframe(df,parent_cube)
     return df
     
@@ -48,7 +51,10 @@ def load_dataframe(df,node):
         time = daily_cube.attrib['time']
         for currency_cube in daily_cube.iterchildren():
             currency = currency_cube.attrib['currency']
-            rate = currency_cube.attrib['rate']
+            try:
+                rate = float(currency_cube.attrib['rate'])
+            except:
+                rate = 1
             df.ix[time,currency] = rate
 
 def get_index_and_cols(node):
