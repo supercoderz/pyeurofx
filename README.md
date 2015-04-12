@@ -23,6 +23,8 @@ price for every day since 1 Jan 1999.
 
 The data fetched will be the rates for EUR vs all major currencies.
 
+You can also get all the ISO currency codes and their names.
+
 To use the module, do something like this - 
 
 ```python
@@ -30,9 +32,11 @@ import eurofx
 
 daily = eurofx.get_daily_data()
 historical = eurofx.get_historical_data()
+currencies = eurofx.get_currency_list()
 
 daily_df = eurofx.get_daily_data_df()
 historical_df = eurofx.get_historical_data_df()
+currencies_df_ = eurofx.get_currency_list_df_()
 
 ```
 
