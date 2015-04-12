@@ -16,3 +16,9 @@ def test_get_daily_df():
 def test_get_historical_df():
 	#just call this function which covers all
 	get_historical_data_df()
+
+def test_get_currency_list_df():
+    get_currency_list_df()
+
+def test_get_currency_list():
+    get_currency_list()

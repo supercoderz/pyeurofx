@@ -5,6 +5,7 @@ import pandas
 
 HISTORICAL='https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml'
 DAILY='https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml'
+ISO_CURRENCIES = 'http://www.currency-iso.org/dam/downloads/table_a1.xml'
 
 def get_and_parse(data_url,use_pandas=False):
     result = requests.get(data_url)
@@ -14,6 +15,22 @@ def get_and_parse(data_url,use_pandas=False):
         else:
             return parse_and_load(result.content)
         
+def get_and_parse_currency_list(data_url,use_pandas=False):
+    result = requests.get(data_url)
+    if result.status_code == requests.codes.ok:
+        currencies = parse_and_load_currency_list(result.content)
+        if use_pandas:
+            return get_currencies_df(currencies)
+        return currencies
+
+def get_currencies_df(data):
+    df = pandas.DataFrame({'Code':[],'Name':[]})
+    df = df.set_index('Code')
+    for i in data:
+        code,name = i
+        df.ix[code] = name
+    return df
+
 def parse_and_load(content):
     data = []
     doc = etree.XML(content)
@@ -31,6 +48,23 @@ def parse_and_load(content):
                 rate = 1
             date = get_date(time)
             data.append((currency,date,rate))
+    return data
+
+def parse_and_load_currency_list(content):
+    data = []
+    doc = etree.XML(content)
+    nodes = doc.iterchildren()
+    ccy_tbl = nodes.__next__()
+    for ccy_ntry in ccy_tbl.iterchildren():
+        ccy_name = None
+        ccy_code = None
+        for child in ccy_ntry.iterchildren():
+            if child.tag == 'Ccy':
+                ccy_code = child.text
+            elif child.tag == 'CcyNm':
+                ccy_name = child.text
+        if ccy_name and ccy_code:
+            data.append((ccy_code,ccy_name))
     return data
 
 def parse_and_load_df(content):
