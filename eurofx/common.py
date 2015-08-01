@@ -5,7 +5,7 @@ import pandas
 
 HISTORICAL='https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml'
 DAILY='https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml'
-ISO_CURRENCIES = 'http://www.currency-iso.org/dam/downloads/table_a1.xml'
+ISO_CURRENCIES = 'http://www.currency-iso.org/dam/downloads/lists/list_one.xml'
 
 def get_and_parse(data_url,use_pandas=False):
     result = requests.get(data_url)
