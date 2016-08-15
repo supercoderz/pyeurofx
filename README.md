@@ -1,10 +1,10 @@
 pyeurofx
 =============
 
-[![Build Status](https://travis-ci.org/supercoderz/pyeurofx.svg?branch=master)](https://travis-ci.org/supercoderz/pyeurofx)
-[![Downloads](https://pypip.in/download/pyeurofx/badge.svg)](https://pypi.python.org/pypi/pyeurofx/)
-[![Latest Version](https://pypip.in/version/pyeurofx/badge.svg)](https://pypi.python.org/pypi/pyeurofx/)
-[![Supported Python versions](https://pypip.in/py_versions/pyeurofx/badge.svg)](https://pypi.python.org/pypi/pyeurofx/)
+[![Travis](https://img.shields.io/travis/supercoderz/pyeurofx.svg?maxAge=2592000)]()
+[![PyPI](https://img.shields.io/pypi/dw/pyeurofx.svg?maxAge=2592000)]()
+[![PyPI](https://img.shields.io/pypi/v/pyeurofx.svg?maxAge=2592000)]()
+[![PyPI](https://img.shields.io/pypi/pyversions/pyeurofx.svg?maxAge=2592000)]()
 
 This is a simple module that fetches the daily and historical FX rates from ECB and parses the data.
 The data is downloaded as XML files and returned as a list of (symbol, date, rate) tuples.
