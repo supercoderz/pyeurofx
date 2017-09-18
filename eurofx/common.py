@@ -10,11 +10,11 @@ HISTORICAL='https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.zip'
 DAILY='https://www.ecb.europa.eu/stats/eurofxref/eurofxref.zip'
 ISO_CURRENCIES = 'http://www.currency-iso.org/dam/downloads/lists/list_one.xml'
 
-def get_data_and_read_file(url):
+def get_data_and_read_file(data_url):
     result = requests.get(data_url)
     if result.status_code == requests.codes.ok:
         tmpdir = tempfile.mkdtemp()
-        fname = tmpdir+'/'+uuid.uuid1()
+        fname = tmpdir+'/'+str(uuid.uuid1())
         with open(fname,'wb') as f:
             f.write(result.content)
         z = zipfile.ZipFile(fname)
@@ -24,9 +24,9 @@ def get_and_parse(data_url,use_pandas=False):
     data = get_data_and_read_file(data_url)
     if data:
         if use_pandas:
-            return parse_and_load_df(result.content)
+            return parse_and_load_df(data)
         else:
-            return parse_and_load(result.content)
+            return parse_and_load(data)
         
 def get_and_parse_currency_list(data_url,use_pandas=False):
     result = requests.get(data_url)
