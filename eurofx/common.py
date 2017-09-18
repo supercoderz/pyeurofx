@@ -2,14 +2,27 @@ import requests
 from lxml import etree
 import datetime
 import pandas
+import tempfile
+import zipfile
+import uuid
 
-HISTORICAL='https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml'
-DAILY='https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml'
+HISTORICAL='https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.zip'
+DAILY='https://www.ecb.europa.eu/stats/eurofxref/eurofxref.zip'
 ISO_CURRENCIES = 'http://www.currency-iso.org/dam/downloads/lists/list_one.xml'
 
-def get_and_parse(data_url,use_pandas=False):
+def get_data_and_read_file(url):
     result = requests.get(data_url)
     if result.status_code == requests.codes.ok:
+        tmpdir = tempfile.mkdtemp()
+        fname = tmpdir+'/'+uuid.uuid1()
+        with open(fname,'wb') as f:
+            f.write(result.content)
+        z = zipfile.ZipFile(fname)
+        return z.read(z.namelist()[0])
+
+def get_and_parse(data_url,use_pandas=False):
+    data = get_data_and_read_file(data_url)
+    if data:
         if use_pandas:
             return parse_and_load_df(result.content)
         else:
