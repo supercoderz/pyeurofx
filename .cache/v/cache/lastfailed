@@ -1,6 +1,1 @@
-{
-  "eurofx/test_eurofx.py::test_get_daily": true, 
-  "eurofx/test_eurofx.py::test_get_daily_df": true, 
-  "eurofx/test_eurofx.py::test_get_historical": true, 
-  "eurofx/test_eurofx.py::test_get_historical_df": true
-}
+{}

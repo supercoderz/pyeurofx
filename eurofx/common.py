@@ -28,10 +28,7 @@ def get_data_and_read_file(data_url):
 def get_and_parse(data_url,use_pandas=False):
     data = get_data_and_read_file(data_url)
     if data:
-        if use_pandas:
-            return parse_and_load_df(data)
-        else:
-            return parse_and_load_csv(data)
+        return parse_and_load_csv(data,use_pandas,data_url==DAILY)
         
 def get_and_parse_currency_list(data_url,use_pandas=False):
     result = requests.get(data_url)
@@ -50,30 +47,21 @@ def get_currencies_df(data):
     return df
 
 
-def parse_and_load_csv(content):
+def parse_and_load_csv(content,use_pandas,is_daily):
+    result=[]
     d=StringIO(content)
     df=pandas.read_csv(d)
-    return df
-
-
-def parse_and_load(content):
-    data = []
-    doc = etree.XML(content)
-    nodes = doc.iterchildren()
-    subject = nodes.__next__()
-    sender = nodes.__next__()
-    parent_cube = nodes.__next__()
-    for daily_cube in parent_cube.iterchildren():
-        time = daily_cube.attrib['time']
-        for currency_cube in daily_cube.iterchildren():
-            currency = currency_cube.attrib['currency']
-            try:
-                rate = float(currency_cube.attrib['rate'])
-            except:
-                rate = 1
-            date = get_date(time)
-            data.append((currency,date,rate))
-    return data
+    df['Date']=df.apply(lambda r:get_date(r['Date']),axis=1)
+    df=df.set_index(['Date'])
+    if use_pandas:
+        return df
+    def get_tuple(x):
+        date=x.name
+        pairs=[(k.strip(),date,x[k]) for k in x.keys().tolist() if x[k]!=' ' and 'Unnamed' not in k]
+        result.extend(pairs)
+        return 1
+    df['result']=df.apply(lambda x:get_tuple(x),axis=1)
+    return result
 
 def parse_and_load_currency_list(content):
     data = []
@@ -92,42 +80,6 @@ def parse_and_load_currency_list(content):
             data.append((ccy_code,ccy_name))
     return data
 
-def parse_and_load_df(content):
-    data = []
-    doc = etree.XML(content)
-    nodes = doc.iterchildren()
-    subject = nodes.__next__()
-    sender = nodes.__next__()
-    parent_cube = nodes.__next__()
-    times,currencies = get_index_and_cols(parent_cube)
-    df = pandas.DataFrame(index=times,columns=currencies,dtype=float)
-    load_dataframe(df,parent_cube)
-    return df
-    
-
-def load_dataframe(df,node):
-    for daily_cube in node.iterchildren():
-        time = daily_cube.attrib['time']
-        for currency_cube in daily_cube.iterchildren():
-            currency = currency_cube.attrib['currency']
-            try:
-                rate = float(currency_cube.attrib['rate'])
-            except:
-                rate = 1
-            df.ix[time,currency] = rate
-
-def get_index_and_cols(node):
-    times = []
-    currencies = []
-    for daily_cube in node.iterchildren():
-        time = daily_cube.attrib['time']
-        times.append(time)
-        for currency_cube in daily_cube.iterchildren():
-            currency = currency_cube.attrib['currency']
-            if currency not in currencies:
-                currencies.append(currency)
-    return (times,currencies)
-                    
 def get_date(date_string):
     try:
         return datetime.datetime.strptime(date_string, "%d %B %Y").date()
