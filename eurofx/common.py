@@ -5,6 +5,11 @@ import pandas
 import tempfile
 import zipfile
 import uuid
+import sys
+if sys.version_info[0] < 3: 
+    from StringIO import StringIO
+else:
+    from io import StringIO
 
 HISTORICAL='https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.zip'
 DAILY='https://www.ecb.europa.eu/stats/eurofxref/eurofxref.zip'
@@ -26,7 +31,7 @@ def get_and_parse(data_url,use_pandas=False):
         if use_pandas:
             return parse_and_load_df(data)
         else:
-            return parse_and_load(data)
+            return parse_and_load_csv(data)
         
 def get_and_parse_currency_list(data_url,use_pandas=False):
     result = requests.get(data_url)
@@ -43,6 +48,13 @@ def get_currencies_df(data):
         code,name = i
         df.ix[code] = name
     return df
+
+
+def parse_and_load_csv(content):
+    d=StringIO(content)
+    df=pandas.read_csv(d)
+    return df
+
 
 def parse_and_load(content):
     data = []
@@ -117,4 +129,8 @@ def get_index_and_cols(node):
     return (times,currencies)
                     
 def get_date(date_string):
-    return datetime.datetime.strptime(date_string, "%Y-%m-%d").date()
+    try:
+        return datetime.datetime.strptime(date_string, "%d %B %Y").date()
+    except:
+        return datetime.datetime.strptime(date_string, "%Y-%m-%d").date()
+
