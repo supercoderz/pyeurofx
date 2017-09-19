@@ -7,9 +7,9 @@ import zipfile
 import uuid
 import sys
 if sys.version_info[0] < 3: 
-    from StringIO import StringIO
+    from StringIO import StringIO as IO
 else:
-    from io import StringIO
+    from io import BytesIO as IO
 
 HISTORICAL='https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.zip'
 DAILY='https://www.ecb.europa.eu/stats/eurofxref/eurofxref.zip'
@@ -49,7 +49,7 @@ def get_currencies_df(data):
 
 def parse_and_load_csv(content,use_pandas,is_daily):
     result=[]
-    d=StringIO(content)
+    d=IO(content)
     df=pandas.read_csv(d)
     df['Date']=df.apply(lambda r:get_date(r['Date']),axis=1)
     df=df.set_index(['Date'])
