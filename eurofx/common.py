@@ -86,8 +86,14 @@ def parse_and_load_currency_list(content):
     return data
 
 def get_date(date_string):
+    d=None
     try:
-        return datetime.datetime.strptime(date_string, "%d %B %Y").date()
+        d=datetime.datetime.strptime(date_string, "%d %B %Y").date()
     except:
-        return datetime.datetime.strptime(date_string, "%Y-%m-%d").date()
+        d=datetime.datetime.strptime(date_string, "%Y-%m-%d").date()
+
+    if d:
+        return d.strftime("%Y-%m-%d")
+    else:
+        return date_string
 
