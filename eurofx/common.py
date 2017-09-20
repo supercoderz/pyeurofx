@@ -53,6 +53,11 @@ def parse_and_load_csv(content,use_pandas,is_daily):
     df=pandas.read_csv(d)
     df['Date']=df.apply(lambda r:get_date(r['Date']),axis=1)
     df=df.set_index(['Date'])
+    if " " in df.columns:
+        df=df.drop([" "],axis=1)
+    cols=df.columns
+    cols=[c.strip() for c in cols]
+    df.columns=cols
     if use_pandas:
         return df
     def get_tuple(x):
